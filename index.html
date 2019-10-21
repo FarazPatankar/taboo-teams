@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Faster+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Flavors&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Flavors&display=swap" rel="stylesheet">
+  <title>Document</title>
+</head>
+
+<body id="container"
+  style="height: 90vh; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background-color: #000; font-weight: 900; padding: 1rem;">
+  <h1 style="font-size: 96px; color: darkviolet; font-family: 'Flavors', cursive;"
+    class="jackInTheBox infinite animated" id="name">
+  </h1>
+  <button onclick="choosePlayer()" id="btn"
+    style="background-color: yellow; color: red; font-size: 48px; padding: 2rem; border-radius: 5px; margin-top: 2rem; font-weight: 900; font-family: 'Faster One';">
+    START
+  </button>
+  <script>
+    const players = [
+      'FERNANDO',
+      'TAMARA',
+      'CLAUDIA',
+      'ASAD',
+      'PETE',
+      'FARAZ',
+      'tamara'
+    ];
+
+    const teamOne = [];
+    const teamTwo = [];
+
+    function choosePlayer() {
+      const randomIndex = Math.floor(Math.random() * players.length);
+      document.getElementById('name').textContent = players[randomIndex];
+      if (teamOne.length === teamTwo.length) {
+        teamOne.push(players[randomIndex])
+      } else {
+        teamTwo.push(players[randomIndex]);
+      }
+      players.splice(randomIndex, 1);
+
+      if (players.length === 6) {
+        document.getElementById('btn').textContent = 'NEXT';
+      }
+
+      if (players.length === 0) {
+        const teamOneName = teamOne.includes('FARAZ') ? 'Team LonelyAtTheTop' : 'Team One';
+        const teamTwoName = teamTwo.includes('FARAZ') ? 'Team LonelyAtTheTop' : 'Team Two';
+        document.getElementById('container').innerHTML =
+          `
+            <h1 class="animated infinite flash" style="font-size: 72px; color: red; font-family: 'Flavors', cursive; text-align: center;">And we're done. Refresh to play again!</h1>
+            <div class="infinite animated flip" style="display: flex; color: red; width: 90%; font-size: 24px; font-family: 'Flavors', cursive; animation-duration: 5s;">
+              <div style="display: flex; flex-direction: column; text-align: left;">
+                <h2>${teamOneName}</h2>
+                <ul id="teamOneList" style="padding: 0; list-style: none";></ul>
+              </div>
+              <div style="display: flex; flex-direction: column; text-align: right;">
+                <h2>${teamTwoName}</h2>
+                <ul id="teamTwoList" style="padding: 0; list-style: none";></ul>
+              </div>
+            </div>
+          `
+        teamOne.forEach(member => {
+          const node = document.createElement("LI");
+          const textnode = document.createTextNode(member);
+          node.appendChild(textnode);
+          document.getElementById('teamOneList').appendChild(node);
+        });
+        teamTwo.forEach(member => {
+          const node = document.createElement("LI");
+          const textnode = document.createTextNode(member);
+          node.appendChild(textnode);
+          document.getElementById('teamTwoList').appendChild(node);
+        });
+      }
+    };
+  </script>
+</body>
+
+</html>
